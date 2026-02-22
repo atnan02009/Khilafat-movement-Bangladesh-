@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Khilafat Movement Bangladesh</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background: linear-gradient(to right, #ff512f, #dd2476);
+    color:white;
+}
+header{
+    text-align:center;
+    padding:20px;
+}
+.kalima{
+    background:black;
+    padding:20px;
+    font-size:35px;
+    text-align:center;
+}
+.container{
+    width:90%;
+    max-width:500px;
+    margin:20px auto;
+    background:rgba(255,255,255,0.1);
+    padding:20px;
+    border-radius:10px;
+}
+input, textarea{
+    width:100%;
+    padding:8px;
+    margin:5px 0;
+    border:none;
+    border-radius:5px;
+}
+button{
+    width:100%;
+    padding:10px;
+    background:#00ffcc;
+    border:none;
+    border-radius:5px;
+    font-weight:bold;
+    cursor:pointer;
+}
+button:hover{
+    background:#00ccaa;
+}
+#adminPanel{
+    display:none;
+}
+footer{
+    text-align:center;
+    padding:15px;
+    background:black;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Khilafat Movement Bangladesh</h1>
+</header>
+
+<div class="kalima">
+لا إله إلا الله محمد رسول الله
+</div>
+
+<div class="container">
+<h2>Register as Member</h2>
+
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="father" placeholder="Father Name">
+<input type="date" id="dob">
+<textarea id="permanent" placeholder="Permanent Address"></textarea>
+<textarea id="present" placeholder="Present Address"></textarea>
+<input type="text" id="mobile" placeholder="Mobile Number">
+
+<button onclick="register()">Register</button>
+</div>
+
+<div class="container">
+<h2>Admin Login</h2>
+<input type="text" id="adminId" placeholder="Login ID">
+<input type="password" id="adminPass" placeholder="Password">
+<button onclick="adminLogin()">Login</button>
+</div>
+
+<div class="container" id="adminPanel">
+<h2>Registered Members</h2>
+<div id="dataList"></div>
+</div>
+
+<footer>
+Developed By Tanjid Mohammad Atnan
+</footer>
+
+<script>
+function register(){
+    let member = {
+        name: document.getElementById("name").value,
+        father: document.getElementById("father").value,
+        dob: document.getElementById("dob").value,
+        permanent: document.getElementById("permanent").value,
+        present: document.getElementById("present").value,
+        mobile: document.getElementById("mobile").value
+    };
+
+    let members = JSON.parse(localStorage.getItem("members")) || [];
+    members.push(member);
+    localStorage.setItem("members", JSON.stringify(members));
+
+    alert("Registration Successful!");
+}
+
+function adminLogin(){
+    let id = document.getElementById("adminId").value;
+    let pass = document.getElementById("adminPass").value;
+
+    if(id === "Tanjid" && pass === "atnan007"){
+        document.getElementById("adminPanel").style.display="block";
+        showData();
+    } else{
+        alert("Wrong Login Details");
+    }
+}
+
+function showData(){
+    let members = JSON.parse(localStorage.getItem("members")) || [];
+    let output = "";
+
+    members.forEach((m, index)=>{
+        output += `
+        <hr>
+        <p><b>Member ${index+1}</b></p>
+        <p>Name: ${m.name}</p>
+        <p>Father: ${m.father}</p>
+        <p>DOB: ${m.dob}</p>
+        <p>Permanent Address: ${m.permanent}</p>
+        <p>Present Address: ${m.present}</p>
+        <p>Mobile: ${m.mobile}</p>
+        `;
+    });
+
+    document.getElementById("dataList").innerHTML = output;
+}
+</script>
+
+</body>
+</html>
